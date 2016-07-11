@@ -11,13 +11,28 @@ import SpriteKit
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        
-        self.addChild(myLabel)
+        let names = (1...25).map {
+            return String($0)
+        }
+        let blocks = names.map {
+            return SKLabelNode(text: $0)
+        }
+        let width:CGFloat = 90
+        for b in blocks {
+            b.fontName = "helvetica"
+            b.fontSize = width/2
+            b.fontColor = UIColor.blackColor()
+        }
+        for (idx,b) in blocks.enumerate() {
+            let xIdx = (idx % 5) - 2
+            let yIdx = 2 - (idx / 5)
+            let x:CGFloat = CGRectGetMidX(self.frame) + width * CGFloat(xIdx)
+            let y:CGFloat = CGRectGetMidY(self.frame) + width * CGFloat(yIdx)
+            b.position = CGPoint(x: x, y: y)
+            addChild(b)
+        }
     }
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
