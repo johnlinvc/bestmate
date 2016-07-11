@@ -11,7 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var blocks:[SKLabelNode]? = nil
+    var blocks:[CardNode]? = nil
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -19,12 +19,12 @@ class GameScene: SKScene {
         let names = cards + cards
         let shuffledNames = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(names).map{ $0 as! String }
         blocks = shuffledNames.map {
-            return SKLabelNode(text: $0)
+            let node = CardNode()
+            node.text = $0
+            return node
         }
         let width:CGFloat = 90
         for b in blocks! {
-            b.fontName = "helvetica"
-            b.fontSize = width/2
             b.fontColor = UIColor.blackColor()
         }
         for (idx,b) in blocks!.enumerate() {
@@ -37,19 +37,19 @@ class GameScene: SKScene {
         }
     }
     
-    var toggledBlock:SKLabelNode? {
+    var toggledBlock:CardNode? {
         didSet {
             markSelected(toggledBlock)
             markUnSelected(oldValue)
         }
     }
     
-    func markSelected(block: SKLabelNode?){
+    func markSelected(block: CardNode?){
         guard let b = block else { return }
         b.fontColor = UIColor.redColor()
     }
     
-    func markUnSelected(block: SKLabelNode?) {
+    func markUnSelected(block: CardNode?) {
         guard let b = block else { return }
         b.fontColor = UIColor.blackColor()
     }
@@ -75,7 +75,7 @@ class GameScene: SKScene {
         }
     }
     
-    func markCompleted(block: SKLabelNode){
+    func markCompleted(block: CardNode){
         block.fontColor = UIColor.greenColor()
     }
    
