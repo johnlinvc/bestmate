@@ -24,9 +24,6 @@ class GameScene: SKScene {
             return node
         }
         let width:CGFloat = 90
-        for b in blocks! {
-            b.fontColor = UIColor.blackColor()
-        }
         for (idx,b) in blocks!.enumerate() {
             let xIdx = (idx % 5) - 2
             let yIdx = 2 - (idx / 5)
@@ -39,19 +36,9 @@ class GameScene: SKScene {
     
     var toggledBlock:CardNode? {
         didSet {
-            markSelected(toggledBlock)
-            markUnSelected(oldValue)
+            toggledBlock?.state = CardNodeState.Selected
+            oldValue?.state = CardNodeState.Normal
         }
-    }
-    
-    func markSelected(block: CardNode?){
-        guard let b = block else { return }
-        b.fontColor = UIColor.redColor()
-    }
-    
-    func markUnSelected(block: CardNode?) {
-        guard let b = block else { return }
-        b.fontColor = UIColor.blackColor()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -70,13 +57,9 @@ class GameScene: SKScene {
         toggledBlock = nil
         guard lastBlock != block else { return }
         if lastBlock.text == block.text {
-            markCompleted(lastBlock)
-            markCompleted(block)
+            lastBlock.state = CardNodeState.Finished
+            block.state = CardNodeState.Finished
         }
     }
     
-    func markCompleted(block: CardNode){
-        block.fontColor = UIColor.greenColor()
-    }
-   
 }
