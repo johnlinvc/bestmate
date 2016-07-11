@@ -10,7 +10,9 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+    
     var blocks:[SKLabelNode]? = nil
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         let cards = (1...12).map { return String($0) }
@@ -35,17 +37,46 @@ class GameScene: SKScene {
         }
     }
     
+    var toggledBlock:SKLabelNode? {
+        didSet {
+            markSelected(toggledBlock)
+            markUnSelected(oldValue)
+        }
+    }
+    
+    func markSelected(block: SKLabelNode?){
+        guard let b = block else { return }
+        b.fontColor = UIColor.redColor()
+    }
+    
+    func markUnSelected(block: SKLabelNode?) {
+        guard let b = block else { return }
+        b.fontColor = UIColor.blackColor()
+    }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            let idx = blocks?.indexOf{
-                return $0.containsPoint(location)
-            }
-            guard let iidx = idx else { continue }
-            let block = blocks?[iidx]
+        guard let touch = touches.first else { return }
+        let location = touch.locationInNode(self)
+        let idx = blocks?.indexOf{
+            return $0.containsPoint(location)
         }
+        guard let iidx = idx else { return }
+        guard let block = blocks?[iidx] else { return }
+        guard let lastBlock = toggledBlock else {
+            toggledBlock = block
+            return
+        }
+        toggledBlock = nil
+        guard lastBlock != block else { return }
+        if lastBlock.text == block.text {
+            markCompleted(lastBlock)
+            markCompleted(block)
+        }
+    }
+    
+    func markCompleted(block: SKLabelNode){
+        block.fontColor = UIColor.greenColor()
     }
    
 }
