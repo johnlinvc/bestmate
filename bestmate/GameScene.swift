@@ -7,15 +7,16 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 class GameScene: SKScene {
     var blocks:[SKLabelNode]? = nil
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let names = (1...25).map {
-            return String($0)
-        }
-        blocks = names.map {
+        let cards = (1...12).map { return String($0) }
+        let names = cards + cards
+        let shuffledNames = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(names).map{ $0 as! String }
+        blocks = shuffledNames.map {
             return SKLabelNode(text: $0)
         }
         let width:CGFloat = 90
@@ -47,7 +48,4 @@ class GameScene: SKScene {
         }
     }
    
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-    }
 }
