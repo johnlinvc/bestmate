@@ -9,11 +9,20 @@
 import SpriteKit
 import GameplayKit
 
+enum GameState {
+    case Init
+    case Reveal
+    case Play
+    case Show
+}
+
 class GameScene: SKScene {
     
     var blocks:[CardNode]? = nil
     var btn:SKLabelNode? = nil
     var hiddenbtn:SKLabelNode? = nil
+    var state = GameState.Init
+    var score = 0
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -31,7 +40,8 @@ class GameScene: SKScene {
     
     func initBlocks() {
         let cards = (1...12).map { return String($0) }
-        let names = cards + cards
+        let skeleton = ["X"]
+        let names = cards + skeleton + cards
         let shuffledNames = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(names).map{ $0 as! String }
         blocks = shuffledNames.map {
             let node = CardNode()
@@ -71,6 +81,7 @@ class GameScene: SKScene {
     }
     
     func blockTouched(touch: UITouch){
+        guard state != .Init else { return }
         let location = touch.locationInNode(self)
         let idx = blocks?.indexOf{
             return $0.containsPoint(location)
@@ -90,18 +101,41 @@ class GameScene: SKScene {
         if lastBlock.text == block.text {
             lastBlock.state = CardNodeState.Finished
             block.state = CardNodeState.Finished
+            score = score + 1
+        }
+    }
+    
+    func revealBlocks(){
+        for b in blocks! {
+            b.state = CardNodeState.Selected
+        }
+    }
+    
+    func hideBlocks() {
+        for b in blocks! {
+            b.state = CardNodeState.Normal
         }
     }
     
     func btnTouched(touch:UITouch){
         let location = touch.locationInNode(self)
         guard btn!.containsPoint(location) else { return }
+        guard state != .Reveal else { return }
+        state = .Reveal
         resetBlocks()
+        score = 0
+        let seq = SKAction.sequence([
+            SKAction.runBlock{self.revealBlocks()},
+            SKAction.waitForDuration(1),
+            SKAction.runBlock{
+                self.hideBlocks()
+                self.state = .Play
+            },
+            ])
+        runAction(seq)
     }
     
-    func hiddenbtnTouched(touch:UITouch){
-        let location = touch.locationInNode(self)
-        guard hiddenbtn!.containsPoint(location) else { return }
+    func showHiddenText(){
         let text = "Stela"+"Will "+"you  "+"marry"+"me?❤️ "
         let actions:[SKAction] = blocks!.enumerate().map {
             let c = String(text[text.startIndex.advancedBy($0)])
@@ -110,6 +144,12 @@ class GameScene: SKScene {
         }
         let SequenceActions = SKAction.sequence(actions)
         runAction(SequenceActions)
+    }
+    
+    func hiddenbtnTouched(touch:UITouch){
+        let location = touch.locationInNode(self)
+        guard hiddenbtn!.containsPoint(location) else { return }
+        showHiddenText()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
