@@ -12,6 +12,7 @@ enum CardNodeState {
     case Normal
     case Selected
     case Finished
+    case Pink
 }
 
 class CardNode: SKNode {
@@ -61,8 +62,14 @@ class CardNode: SKNode {
             case .Finished:
                 background.zPosition = bgZpos
                 label.fontColor = UIColor.greenColor()
+            case .Pink:
+                background.zPosition = bgZpos
             }
         }
+    }
+    
+    func setToPink(){
+        label.fontColor = UIColor(colorLiteralRed: 219.0/255.0, green: 112.0/255.0, blue: 147.0/255.0, alpha: 1)
     }
     
     var text:String? {

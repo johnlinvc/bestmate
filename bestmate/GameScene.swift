@@ -13,6 +13,7 @@ class GameScene: SKScene {
     
     var blocks:[CardNode]? = nil
     var btn:SKLabelNode? = nil
+    var hiddenbtn:SKLabelNode? = nil
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -22,6 +23,10 @@ class GameScene: SKScene {
         btn?.fontColor = UIColor.blueColor()
         btn?.position = view.center
         addChild(btn!)
+        hiddenbtn = SKLabelNode(text: "hidden run")
+        hiddenbtn?.fontColor = UIColor.blueColor()
+        hiddenbtn?.position = CGPoint(x: view.center.x, y: view.center.y - 600)
+        addChild(hiddenbtn!)
     }
     
     func initBlocks() {
@@ -94,11 +99,27 @@ class GameScene: SKScene {
         resetBlocks()
     }
     
+    func hiddenbtnTouched(touch:UITouch){
+        let location = touch.locationInNode(self)
+        guard hiddenbtn!.containsPoint(location) else { return }
+        let text = "Stela"+"Will "+"you  "+"marry"+"me?  "
+        for (idx,b) in blocks!.enumerate() {
+            let action = SKAction.runBlock({
+                let c = text[text.startIndex.advancedBy(idx)]
+                b.state = CardNodeState.Finished
+                b.setToPink()
+                b.text = String(c)
+            })
+            runAction(action)
+        }
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
         guard let touch = touches.first else { return }
         blockTouched(touch)
         btnTouched(touch)
+        hiddenbtnTouched(touch)
     }
     
 }
