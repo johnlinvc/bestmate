@@ -41,20 +41,25 @@ class CardNode: SKNode {
         background.position = CGPoint(x: 0,y: 0)
         background.fillColor = UIColor.whiteColor()
         background.strokeColor = UIColor.blueColor()
+        background.zPosition = fgZPos
         self.addChild(label)
         self.addChild(background)
     }
     
     let normalColor = UIColor.blackColor()
+    let fgZPos:CGFloat = 100
+    let bgZpos:CGFloat = -1
     
     var state:CardNodeState {
         didSet {
             switch state {
             case .Normal:
                 label.fontColor = normalColor
+                background.zPosition = fgZPos
             case .Selected:
-                label.fontColor = UIColor.redColor()
+                background.zPosition = bgZpos
             case .Finished:
+                background.zPosition = bgZpos
                 label.fontColor = UIColor.greenColor()
             }
         }

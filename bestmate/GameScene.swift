@@ -12,10 +12,19 @@ import GameplayKit
 class GameScene: SKScene {
     
     var blocks:[CardNode]? = nil
+    var btn:SKLabelNode? = nil
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         self.backgroundColor = UIColor.whiteColor()
+        initBlocks()
+        btn = SKLabelNode(text: "run")
+        btn?.fontColor = UIColor.blueColor()
+        btn?.position = view.center
+        addChild(btn!)
+    }
+    
+    func initBlocks() {
         let cards = (1...12).map { return String($0) }
         let names = cards + cards
         let shuffledNames = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(names).map{ $0 as! String }
@@ -33,34 +42,57 @@ class GameScene: SKScene {
             b.position = CGPoint(x: x, y: y)
             addChild(b)
         }
+        toggledBlocks = []
     }
     
-    var toggledBlock:CardNode? {
+    var toggledBlocks:[CardNode]? {
         didSet {
-            toggledBlock?.state = CardNodeState.Selected
-            oldValue?.state = CardNodeState.Normal
+            if let ov = oldValue {
+                for b in ov {
+                    guard b.state != CardNodeState.Finished else { continue }
+                    b.state = CardNodeState.Normal
+                }
+            }
+            for b in toggledBlocks! {
+                guard b.state != CardNodeState.Finished else { continue }
+                b.state = CardNodeState.Selected
+            }
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-        guard let touch = touches.first else { return }
+    func blockTouched(touch: UITouch){
         let location = touch.locationInNode(self)
         let idx = blocks?.indexOf{
             return $0.containsPoint(location)
         }
         guard let iidx = idx else { return }
         guard let block = blocks?[iidx] else { return }
-        guard let lastBlock = toggledBlock else {
-            toggledBlock = block
+        if toggledBlocks!.count == 2 {
+            toggledBlocks = [block]
+            return
+        } else if toggledBlocks!.count == 0{
+            toggledBlocks = [block]
             return
         }
-        toggledBlock = nil
+        let lastBlock = toggledBlocks![0]
         guard lastBlock != block else { return }
+        toggledBlocks = [lastBlock,block]
         if lastBlock.text == block.text {
             lastBlock.state = CardNodeState.Finished
             block.state = CardNodeState.Finished
         }
+    }
+    
+    func btnTouched(touch:UITouch){
+        let location = touch.locationInNode(self)
+        guard btn!.containsPoint(location) else { return }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        guard let touch = touches.first else { return }
+        blockTouched(touch)
+        btnTouched(touch)
     }
     
 }
