@@ -13,13 +13,13 @@ enum GameState {
     case Init
     case Reveal
     case Play
-    case Show
+    case Special
 }
 
 class GameScene: SKScene {
     
     var blocks:[CardNode]? = nil
-    var btn:SKLabelNode? = nil
+    var btn:SKShapeNode? = nil
     var hiddenbtn:SKLabelNode? = nil
     var state = GameState.Init
     var score = 0
@@ -28,8 +28,7 @@ class GameScene: SKScene {
         /* Setup your scene here */
         self.backgroundColor = UIColor.whiteColor()
         initBlocks()
-        btn = SKLabelNode(text: "Play")
-        btn?.fontColor = UIColor.blueColor()
+        btn = SKShapeNode(rectOfSize: CGSize(width: 100, height: 45))
         btn?.position = CGPoint(x: 600, y: 100)
         addChild(btn!)
         hiddenbtn = SKLabelNode(text: "Play")
@@ -80,6 +79,8 @@ class GameScene: SKScene {
         }
     }
     
+    let specialScore = 2
+    
     func blockTouched(touch: UITouch){
         guard state != .Init else { return }
         let location = touch.locationInNode(self)
@@ -88,6 +89,12 @@ class GameScene: SKScene {
         }
         guard let iidx = idx else { return }
         guard let block = blocks?[iidx] else { return }
+        if state == .Special && score >= specialScore {
+            for b in blocks! {
+                guard b.state != CardNodeState.Finished else { continue }
+                b.text = "❤️"
+            }
+        }
         if toggledBlocks!.count == 2 {
             toggledBlocks = [block]
             return
@@ -103,6 +110,9 @@ class GameScene: SKScene {
             block.state = CardNodeState.Finished
             score = score + 1
         }
+        if state == .Special && score > specialScore {
+            showHiddenText()
+        }
     }
     
     func revealBlocks(){
@@ -117,9 +127,7 @@ class GameScene: SKScene {
         }
     }
     
-    func btnTouched(touch:UITouch){
-        let location = touch.locationInNode(self)
-        guard btn!.containsPoint(location) else { return }
+    func resetGame(initState:GameState){
         guard state != .Reveal else { return }
         state = .Reveal
         resetBlocks()
@@ -129,10 +137,16 @@ class GameScene: SKScene {
             SKAction.waitForDuration(1),
             SKAction.runBlock{
                 self.hideBlocks()
-                self.state = .Play
+                self.state = initState
             },
             ])
         runAction(seq)
+    }
+    
+    func btnTouched(touch:UITouch){
+        let location = touch.locationInNode(self)
+        guard btn!.containsPoint(location) else { return }
+        resetGame(.Play)
     }
     
     func showHiddenText(){
@@ -149,7 +163,7 @@ class GameScene: SKScene {
     func hiddenbtnTouched(touch:UITouch){
         let location = touch.locationInNode(self)
         guard hiddenbtn!.containsPoint(location) else { return }
-        showHiddenText()
+        resetGame(.Special)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
