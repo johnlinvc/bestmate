@@ -28,13 +28,13 @@ class GameScene: SKScene {
         /* Setup your scene here */
         self.backgroundColor = UIColor.whiteColor()
         initBlocks()
-        btn = SKLabelNode(text: "run")
+        btn = SKLabelNode(text: "Play")
         btn?.fontColor = UIColor.blueColor()
-        btn?.position = view.center
+        btn?.position = CGPoint(x: 600, y: 100)
         addChild(btn!)
-        hiddenbtn = SKLabelNode(text: "hidden run")
+        hiddenbtn = SKLabelNode(text: "Play")
         hiddenbtn?.fontColor = UIColor.blueColor()
-        hiddenbtn?.position = CGPoint(x: view.center.x, y: view.center.y - 600)
+        hiddenbtn?.position = CGPoint(x: 500, y:100)
         addChild(hiddenbtn!)
     }
     

@@ -28,7 +28,7 @@ class CardNode: SKNode {
     }
     var label:SKLabelNode
     var background:SKShapeNode
-    let length:CGFloat = 90
+    let length:CGFloat = 60
     let cornerRadius:CGFloat = 10
     override init() {
         label = SKLabelNode(fontNamed: "helvetica")
@@ -37,7 +37,7 @@ class CardNode: SKNode {
         state = .Normal
         super.init()
         label.position = CGPoint(x: 0,y: -15)
-        label.fontSize = 45
+        label.fontSize = 30
         background.position = CGPoint(x: 0,y: 0)
         background.fillColor = UIColor.whiteColor()
         background.strokeColor = UIColor.blueColor()
