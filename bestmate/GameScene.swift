@@ -14,6 +14,7 @@ enum GameState {
     case Reveal
     case Play
     case Special
+    case SpecialDone
 }
 
 class GameScene: SKScene {
@@ -89,7 +90,7 @@ class GameScene: SKScene {
     let specialScore = 2
     
     func blockTouched(touch: UITouch){
-        guard state != .Init else { return }
+        guard state != .Init && state != .SpecialDone else { return }
         let location = touch.locationInNode(self)
         let idx = blocks?.indexOf{
             return $0.containsPoint(location)
@@ -119,7 +120,7 @@ class GameScene: SKScene {
         }
         if state == .Special && score > specialScore {
             showHiddenText()
-            state = .Init
+            state = .SpecialDone
         }
     }
     
@@ -139,6 +140,8 @@ class GameScene: SKScene {
     var revealStartTime:NSTimeInterval? = nil
     func resetGame(initState:GameState){
         guard state != .Reveal else { return }
+        revealStartTime = nil
+        gameStartTime = nil
         state = .Reveal
         resetBlocks()
         score = 0
@@ -160,7 +163,7 @@ class GameScene: SKScene {
     }
     
     func showHiddenText(){
-        let text = "Stela"+"Will "+"you  "+"marry"+"me?❤️ "
+        let text = "小甜芯  "+"Will "+"you  "+"marry"+"me?❤️ "
         let actions:[SKAction] = blocks!.enumerate().map {
             let c = String(text[text.startIndex.advancedBy($0)])
             let action = $1.showTextAction(c)
@@ -191,8 +194,11 @@ class GameScene: SKScene {
         self.timeLabel?.text = text
     }
     
+    var gameStartTime:NSTimeInterval? = nil
+    
     override func update(currentTime: NSTimeInterval) {
-        if state == .Reveal {
+        switch state {
+        case .Reveal:
             guard let rst = revealStartTime else {
                 revealStartTime = currentTime
                 return
@@ -200,8 +206,16 @@ class GameScene: SKScene {
             let timeDiffSec = (currentTime - rst)
             let countDown = revealDuration -  timeDiffSec + 1
             showTimeSec(countDown)
-        } else {
+        case .Play, .Special:
+            guard let gst = gameStartTime else {
+                gameStartTime = currentTime
+                return
+            }
+            let timeDiff = currentTime - gst
+            showTimeSec(timeDiff)
+        default:
             revealStartTime = nil
+            gameStartTime = nil
         }
     }
     
