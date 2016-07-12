@@ -66,7 +66,7 @@ class CardNode: SKNode {
     }
     
     func showTextAction(text:String)->SKAction {
-        let duration = 0.5
+        let duration = 0.4
         let fadeInAction = SKAction.fadeInWithDuration(duration)
         let action = SKAction.runBlock({
             self.state = CardNodeState.Finished
