@@ -104,12 +104,9 @@ class GameScene: SKScene {
         guard hiddenbtn!.containsPoint(location) else { return }
         let text = "Stela"+"Will "+"you  "+"marry"+"me?  "
         for (idx,b) in blocks!.enumerate() {
-            let action = SKAction.runBlock({
-                let c = text[text.startIndex.advancedBy(idx)]
-                b.state = CardNodeState.Finished
-                b.setToPink()
-                b.text = String(c)
-            })
+            
+            let c = String(text[text.startIndex.advancedBy(idx)])
+            let action = b.showTextAction(c)
             runAction(action)
         }
     }
