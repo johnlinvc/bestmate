@@ -15,6 +15,7 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        self.backgroundColor = UIColor.whiteColor()
         let cards = (1...12).map { return String($0) }
         let names = cards + cards
         let shuffledNames = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(names).map{ $0 as! String }
@@ -23,7 +24,7 @@ class GameScene: SKScene {
             node.text = $0
             return node
         }
-        let width:CGFloat = 90
+        let width:CGFloat = blocks![0].length + 5
         for (idx,b) in blocks!.enumerate() {
             let xIdx = (idx % 5) - 2
             let yIdx = 2 - (idx / 5)

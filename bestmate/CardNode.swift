@@ -39,6 +39,8 @@ class CardNode: SKNode {
         label.position = CGPoint(x: 0,y: -15)
         label.fontSize = 45
         background.position = CGPoint(x: 0,y: 0)
+        background.fillColor = UIColor.whiteColor()
+        background.strokeColor = UIColor.blueColor()
         self.addChild(label)
         self.addChild(background)
     }
