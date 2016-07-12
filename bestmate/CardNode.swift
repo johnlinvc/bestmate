@@ -66,12 +66,18 @@ class CardNode: SKNode {
     }
     
     func showTextAction(text:String)->SKAction {
+        let duration = 0.5
+        let fadeInAction = SKAction.fadeInWithDuration(duration)
         let action = SKAction.runBlock({
             self.state = CardNodeState.Finished
+            self.label.alpha = 0
             self.setToPink()
             self.text = String(text)
+            self.label.runAction(fadeInAction)
         })
-        return action
+        let waitAction = SKAction.waitForDuration(duration)
+        let group = SKAction.sequence([action,waitAction])
+        return group
     }
     
     func setToPink(){

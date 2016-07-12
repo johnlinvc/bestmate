@@ -103,12 +103,14 @@ class GameScene: SKScene {
         let location = touch.locationInNode(self)
         guard hiddenbtn!.containsPoint(location) else { return }
         let text = "Stela"+"Will "+"you  "+"marry"+"me?  "
-        for (idx,b) in blocks!.enumerate() {
-            
-            let c = String(text[text.startIndex.advancedBy(idx)])
-            let action = b.showTextAction(c)
-            runAction(action)
+        
+        let actions:[SKAction] = blocks!.enumerate().map {
+            let c = String(text[text.startIndex.advancedBy($0)])
+            let action = $1.showTextAction(c)
+            return action
         }
+        let SequenceActions = SKAction.sequence(actions)
+        runAction(SequenceActions)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
