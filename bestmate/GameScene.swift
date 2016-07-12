@@ -23,6 +23,8 @@ class GameScene: SKScene {
     var hiddenbtn:SKLabelNode? = nil
     var state = GameState.Init
     var score = 0
+    var time = 0
+    var timeLabel:SKLabelNode? = nil
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -35,6 +37,11 @@ class GameScene: SKScene {
         hiddenbtn?.fontColor = UIColor.blueColor()
         hiddenbtn?.position = CGPoint(x: 500, y:100)
         addChild(hiddenbtn!)
+        timeLabel = SKLabelNode(text: "0:00")
+        timeLabel?.fontSize = 90
+        timeLabel?.fontColor = UIColor.blueColor()
+        timeLabel?.position = CGPoint(x: 500, y:620)
+        addChild(timeLabel!)
     }
     
     func initBlocks() {
@@ -129,7 +136,7 @@ class GameScene: SKScene {
     }
     
     let revealDuration:NSTimeInterval = 5
-    
+    var revealStartTime:NSTimeInterval? = nil
     func resetGame(initState:GameState){
         guard state != .Reveal else { return }
         state = .Reveal
@@ -175,6 +182,27 @@ class GameScene: SKScene {
         blockTouched(touch)
         btnTouched(touch)
         hiddenbtnTouched(touch)
+    }
+    
+    func showTimeSec(time:NSTimeInterval){
+        let sec = Int(time) % 60
+        let min = Int(time/60)
+        let text = String(format: "%d:%02d", min, sec)
+        self.timeLabel?.text = text
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        if state == .Reveal {
+            guard let rst = revealStartTime else {
+                revealStartTime = currentTime
+                return
+            }
+            let timeDiffSec = (currentTime - rst)
+            let countDown = revealDuration -  timeDiffSec + 1
+            showTimeSec(countDown)
+        } else {
+            revealStartTime = nil
+        }
     }
     
 }
