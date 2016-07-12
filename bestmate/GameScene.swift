@@ -45,6 +45,11 @@ class GameScene: SKScene {
         toggledBlocks = []
     }
     
+    func resetBlocks() {
+        removeChildrenInArray(blocks!)
+        initBlocks()
+    }
+    
     var toggledBlocks:[CardNode]? {
         didSet {
             if let ov = oldValue {
@@ -86,6 +91,7 @@ class GameScene: SKScene {
     func btnTouched(touch:UITouch){
         let location = touch.locationInNode(self)
         guard btn!.containsPoint(location) else { return }
+        resetBlocks()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
