@@ -112,6 +112,7 @@ class GameScene: SKScene {
         }
         if state == .Special && score > specialScore {
             showHiddenText()
+            state = .Init
         }
     }
     
@@ -127,6 +128,8 @@ class GameScene: SKScene {
         }
     }
     
+    let revealDuration:NSTimeInterval = 5
+    
     func resetGame(initState:GameState){
         guard state != .Reveal else { return }
         state = .Reveal
@@ -134,7 +137,7 @@ class GameScene: SKScene {
         score = 0
         let seq = SKAction.sequence([
             SKAction.runBlock{self.revealBlocks()},
-            SKAction.waitForDuration(1),
+            SKAction.waitForDuration(revealDuration),
             SKAction.runBlock{
                 self.hideBlocks()
                 self.state = initState
