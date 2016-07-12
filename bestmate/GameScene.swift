@@ -102,8 +102,7 @@ class GameScene: SKScene {
     func hiddenbtnTouched(touch:UITouch){
         let location = touch.locationInNode(self)
         guard hiddenbtn!.containsPoint(location) else { return }
-        let text = "Stela"+"Will "+"you  "+"marry"+"me?  "
-        
+        let text = "Stela"+"Will "+"you  "+"marry"+"me?❤️ "
         let actions:[SKAction] = blocks!.enumerate().map {
             let c = String(text[text.startIndex.advancedBy($0)])
             let action = $1.showTextAction(c)
