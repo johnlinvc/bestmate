@@ -11,3 +11,8 @@
 click the blank area on the right site of start button to start demo mode
 
 ![click blank area to start](https://raw.githubusercontent.com/johnlinvc/bestmate/develop/normal_demo.gif)
+
+# License
+MIT
+
+
