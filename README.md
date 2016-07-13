@@ -15,4 +15,8 @@ click the blank area on the right site of start button to start demo mode
 # License
 MIT
 
+# Release Notes
 
+## v1.0.0
+
+It works!! ❤️  
