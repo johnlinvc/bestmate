@@ -16,6 +16,7 @@
 		1BEEDE131D33FB4B00E44A28 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BEEDE111D33FB4B00E44A28 /* LaunchScreen.storyboard */; };
 		1BEEDE1E1D33FB4B00E44A28 /* bestmateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEDE1D1D33FB4B00E44A28 /* bestmateTests.swift */; };
 		1BEEDE291D33FB4B00E44A28 /* bestmateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEDE281D33FB4B00E44A28 /* bestmateUITests.swift */; };
+		1BEEDE371D340C0100E44A28 /* CardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEDE361D340C0100E44A28 /* CardNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		1BEEDE241D33FB4B00E44A28 /* bestmateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bestmateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEEDE281D33FB4B00E44A28 /* bestmateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bestmateUITests.swift; sourceTree = "<group>"; };
 		1BEEDE2A1D33FB4B00E44A28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1BEEDE361D340C0100E44A28 /* CardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				1BEEDE041D33FB4A00E44A28 /* AppDelegate.swift */,
 				1BEEDE061D33FB4A00E44A28 /* GameScene.sks */,
 				1BEEDE081D33FB4A00E44A28 /* GameScene.swift */,
+				1BEEDE361D340C0100E44A28 /* CardNode.swift */,
 				1BEEDE0A1D33FB4A00E44A28 /* GameViewController.swift */,
 				1BEEDE0C1D33FB4A00E44A28 /* Main.storyboard */,
 				1BEEDE0F1D33FB4B00E44A28 /* Assets.xcassets */,
@@ -199,6 +202,7 @@
 				TargetAttributes = {
 					1BEEDE001D33FB4A00E44A28 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 85F7WF95E5;
 					};
 					1BEEDE181D33FB4B00E44A28 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -264,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BEEDE091D33FB4A00E44A28 /* GameScene.swift in Sources */,
+				1BEEDE371D340C0100E44A28 /* CardNode.swift in Sources */,
 				1BEEDE0B1D33FB4A00E44A28 /* GameViewController.swift in Sources */,
 				1BEEDE051D33FB4A00E44A28 /* AppDelegate.swift in Sources */,
 			);
@@ -409,10 +414,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = bestmate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jlvc.bestmate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jl.bestmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -420,10 +429,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = bestmate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jlvc.bestmate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jl.bestmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -494,6 +507,7 @@
 				1BEEDE2F1D33FB4B00E44A28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1BEEDE301D33FB4B00E44A28 /* Build configuration list for PBXNativeTarget "bestmateTests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +516,7 @@
 				1BEEDE321D33FB4B00E44A28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1BEEDE331D33FB4B00E44A28 /* Build configuration list for PBXNativeTarget "bestmateUITests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +525,7 @@
 				1BEEDE351D33FB4B00E44A28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
