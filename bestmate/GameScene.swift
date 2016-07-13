@@ -122,6 +122,10 @@ class GameScene: SKScene {
             showHiddenText()
             state = .SpecialDone
         }
+        
+        if score >= (blocks!.count/2) {
+            state = .Init
+        }
     }
     
     func revealBlocks(){
